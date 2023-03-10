@@ -48,12 +48,16 @@ class ProjectController extends Controller
             'project_img' => 'nullable|image',
             'description' => 'required|string',
             'project_link' => 'required|url',
+            'type_id' => 'nullable|exists:types,id'
+
         ], [
             'name.required' => 'Devi inserire un nome valido!',
             'description.required' => 'Devi inserire una descrizione!',
             'project_img.image' => 'Il file caricato deve essere un\'immagine.',
             'project_link.required' => 'Devi inserire un link valido!',
             'project_link.url' => 'Il link del progetto non è valido.',
+            'type_id.exists' => 'Il tipo di progetto inserito non è valido',
+
         ]);
         $data = $request->all();
         $project = new Project();
@@ -94,12 +98,13 @@ class ProjectController extends Controller
             'project_img' => 'nullable|image',
             'description' => 'required|string',
             'project_link' => 'required|url',
+            'type_id' => 'nullable|exists:types,id'
         ], [
             'name.required' => 'Devi inserire un nome valido!',
             'description.required' => 'Devi inserire una descrizione!',
             'project_img.image' => 'Il file caricato deve essere un\'immagine.',
             'project_link.required' => 'Devi inserire un link valido!',
-            'project_link.url' => 'Il link del progetto non è valido.',
+            'type_id.exists' => 'Il tipo di progetto inserito non è valido',
         ]);
         $data = $request->all();
         if (Arr::exists($data, 'project_img')) {
