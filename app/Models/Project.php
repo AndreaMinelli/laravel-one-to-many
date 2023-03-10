@@ -18,7 +18,7 @@ class Project extends Model
 
     public function getDescription()
     {
-        return substr($this->description, 0, 40) . '...';
+        return substr($this->description, 0, 30) . '...';
     }
 
     public function getProjectLink()

@@ -25,6 +25,7 @@
             <tr>
                 <th scope="col">Nome</th>
                 <th scope="col">Descrizione</th>
+                <th scope="col">Tipo</th>
                 <th scope="col">Link Git Hub</th>
                 <th scope="col">Ultimo Agg.</th>
                 <th scope="col">Pub.</th>
@@ -36,15 +37,16 @@
                 <tr>
                     <th scope="row">{{ $project->name }}</th>
                     <td>{{ $project->getDescription() }}</td>
+                    <td>{{ $project->type ? $project->type->name : 'N.D.' }}</td>
                     <td><a href="{{ $project->project_link }}">{{ $project->getProjectLink() }}</a></td>
                     <td>{{ $project->updated_at }}</td>
                     <td>{{ $project->published ? 'Si' : 'No' }}</td>
-                    <td class="d-flex justify-content-between">
+                    <td>
                         <a class="btn btn-primary btn-sm" href="{{ route('admin.projects.show', $project->id) }}"><i
                                 class="fa-solid fa-eye"></i></a>
                         <a class="btn btn-warning btn-sm text-white"
                             href="{{ route('admin.projects.edit', $project->id) }}"><i class="fa-solid fa-pencil"></i></a>
-                        <form action="{{ route('admin.projects.destroy', $project->id) }}" class="delete-form"
+                        <form action="{{ route('admin.projects.destroy', $project->id) }}" class="delete-form d-inline"
                             method="POST">
                             @method('DELETE')
                             @csrf
@@ -54,7 +56,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" scope="row" class="text-center">
+                    <td colspan="7" scope="row" class="text-center">
                         Non ci sono progetti da visualizzare
                     </td>
                 </tr>
