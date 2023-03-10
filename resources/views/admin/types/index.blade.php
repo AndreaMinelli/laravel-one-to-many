@@ -28,6 +28,7 @@
             </div>
             <button class="btn btn-success ms-3">Salva</button>
         </form>
+        <button class="btn btn-secondary ms-3 mt-auto" id="cancel-create" style='display:none'>Annulla</button>
     </div>
     <table class="table table-striped align-middle">
         <thead>
@@ -51,7 +52,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div>
-                                    <input type="text" class="form-control me-2" name="edit-name" required>
+                                    <input type="text" class="form-control me-2 edit-input" name="edit-name" required>
                                 </div>
                             </form>
                         </div>
@@ -69,6 +70,7 @@
                         </div>
                         <div class="justify-content-end edit-button-container" style='display:none'>
                             <button type="button" class="btn btn-primary save-edit">Modifica</button>
+                            <button type="button" class="btn btn-secondary ms-2 cancel-edit">Annulla</button>
                         </div>
                     </td>
                 </tr>
@@ -89,10 +91,18 @@
 @section('scripts')
     <script>
         const showAddForm = document.getElementById('show-add-form');
+        const cancelCreateButton = document.getElementById('cancel-create');
         const addForm = document.getElementById('add-form');
         showAddForm.addEventListener('click', () => {
             showAddForm.style.display = 'none';
             addForm.style.display = 'flex';
+            cancelCreateButton.style.display = 'block'
+        });
+
+        cancelCreateButton.addEventListener('click', () => {
+            showAddForm.style.display = 'block';
+            addForm.style.display = 'none';
+            cancelCreateButton.style.display = 'none'
         });
     </script>
 
@@ -103,18 +113,33 @@
         const oldNameValueField = document.querySelectorAll('.old-name-value');
         const editFormContainer = document.querySelectorAll('.edit-form-container');
         const editForms = document.querySelectorAll('.edit-form');
+        const editInput = document.querySelectorAll('.edit-input');
         const saveEditButton = document.querySelectorAll('.save-edit');
+        const cancelEditButton = document.querySelectorAll('.cancel-edit');
+        let values = [];
+        oldNameValueField.forEach(oldValue => {
+            values.push(oldValue.innerHTML.trim());
+        });
         editTypeButton.forEach((button, i) => {
             button.addEventListener('click', () => {
                 changesTypeField[i].style.display = 'none';
                 oldNameValueField[i].style.display = 'none';
                 editButtonContainer[i].style.display = 'flex';
                 editFormContainer[i].style.display = 'block';
+                editInput[i].value = values[i];
             })
         });
         saveEditButton.forEach((button, i) => {
             button.addEventListener('click', () => {
                 editForms[i].submit();
+            })
+        });
+        cancelEditButton.forEach((button, i) => {
+            button.addEventListener('click', () => {
+                changesTypeField[i].style.display = 'flex';
+                oldNameValueField[i].style.display = 'block';
+                editButtonContainer[i].style.display = 'none';
+                editFormContainer[i].style.display = 'none';
             })
         });
     </script>
