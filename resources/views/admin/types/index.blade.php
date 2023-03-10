@@ -42,16 +42,35 @@
             @forelse ($types as $type)
                 <tr>
                     <th scope="row">{{ $type->id }}</th>
-                    <td>{{ $type->name }}</td>
+                    <td>
+                        <div class="old-name-value">
+                            {{ $type->name }}
+                        </div>
+                        <div style='display:none' class="edit-form-container">
+                            <form action="{{ route('admin.types.update', $type->id) }}" method="POST" class="edit-form">
+                                @csrf
+                                @method('PUT')
+                                <div>
+                                    <input type="text" class="form-control me-2 @error('edit-name') is-invalid @enderror"
+                                        name="edit-name" required>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
                     <td>{{ $type->updated_at }}</td>
-                    <td class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-warning btn-sm text-white me-3"><i
-                                class="fa-solid fa-pencil"></i></button>
-                        <form action="{{ route('admin.types.destroy', $type->id) }}" class="delete-form" method="POST">
-                            @method('DELETE')
-                            @csrf
-                            <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i></button>
-                        </form>
+                    <td>
+                        <div class="justify-content-end changes-type-field" style='display:flex'>
+                            <button type="button" class="btn btn-warning btn-sm text-white me-3 edit-type-button"><i
+                                    class="fa-solid fa-pencil"></i></button>
+                            <form action="{{ route('admin.types.destroy', $type->id) }}" class="delete-form" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i></button>
+                            </form>
+                        </div>
+                        <div class="justify-content-end edit-button-container" style='display:none'>
+                            <button type="button" class="btn btn-primary save-edit">Modifica</button>
+                        </div>
                     </td>
                 </tr>
             @empty
@@ -75,6 +94,29 @@
         showAddForm.addEventListener('click', () => {
             showAddForm.style.display = 'none';
             addForm.style.display = 'flex';
+        });
+    </script>
+
+    <script>
+        const editTypeButton = document.querySelectorAll('.edit-type-button');
+        const changesTypeField = document.querySelectorAll('.changes-type-field');
+        const editButtonContainer = document.querySelectorAll('.edit-button-container');
+        const oldNameValueField = document.querySelectorAll('.old-name-value');
+        const editFormContainer = document.querySelectorAll('.edit-form-container');
+        const editForms = document.querySelectorAll('.edit-form');
+        const saveEditButton = document.querySelectorAll('.save-edit');
+        editTypeButton.forEach((button, i) => {
+            button.addEventListener('click', () => {
+                changesTypeField[i].style.display = 'none';
+                oldNameValueField[i].style.display = 'none';
+                editButtonContainer[i].style.display = 'flex';
+                editFormContainer[i].style.display = 'block';
+            })
+        });
+        saveEditButton.forEach((button, i) => {
+            button.addEventListener('click', () => {
+                editForms[i].submit();
+            })
         });
     </script>
 @endsection

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Symfony\Component\Console\Input\Input;
 
 class TypeController extends Controller
 {
@@ -65,7 +67,16 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
-        //
+        $request->validate([
+            'edit-name' => ['required', 'string', Rule::unique('types', 'name')->ignore($type->id)]
+        ], [
+            'edit-name.required' => 'Devi inserire un nome valido.',
+            'edit-name.unique' => 'La tipologia inserita è già presente.'
+        ]);
+        $type->name = $request->input('edit-name');
+        $type->save();
+
+        return to_route('admin.types.index')->with('type', 'success')->with('msg', "$type->name modificato correttamente");
     }
 
     /**
