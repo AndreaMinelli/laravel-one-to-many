@@ -51,8 +51,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div>
-                                    <input type="text" class="form-control me-2 @error('edit-name') is-invalid @enderror"
-                                        name="edit-name" required>
+                                    <input type="text" class="form-control me-2" name="edit-name" required>
                                 </div>
                             </form>
                         </div>
