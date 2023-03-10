@@ -8,7 +8,7 @@
 @endif
 
 @csrf
-<div class="col-4">
+<div class="col-6">
     <label for="name" class="form-label">Nome Progetto:</label>
     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
         placeholder="Inserisci nome progetto" value="{{ old('name', $project->name) }}" required>
@@ -18,7 +18,7 @@
         </div>
     @enderror
 </div>
-<div class="col-4">
+<div class="col-6">
     <label for="project_link" class="form-label">Git Hub Link:</label>
     <input type="url" class="form-control @error('project_link') is-invalid @enderror" id="project_link"
         name="project_link" value="{{ old('project_link', $project->project_link) }}"
@@ -29,8 +29,23 @@
         </div>
     @enderror
 </div>
+<div class="col-4">
+    <label for="type_id" class="form-label">Tipologia progetto:</label>
+    <select class="form-select" name="type_id" id="type_id">
+        <option value="" selected>N.D.</option>
+        @foreach ($types as $type)
+            <option @if (old('type_id', $project->type_id) == $type->id) selected @endif value="{{ $type->id }}">{{ $type->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('type_id')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+    @enderror
+</div>
 
-<div class="col-3" id="upload-image">
+<div class="col-7" id="upload-image">
     <label for="project_img" class="form-label">Immagine:</label>
     <div class="input-group mb-3">
         <button type="button" class="btn btn-primary rounded-end" id="show-image-input"
@@ -49,6 +64,7 @@
     <img src="{{ $project->project_img ? asset('storage/' . $project->project_img) : 'https://www.innerintegratori.it/wp-content/uploads/2021/06/placeholder-image-300x225.png' }}"
         alt="image-preview" id="image-preview" class="img-fluid">
 </div>
+
 
 <div class="col-10">
     <label for="description" class="form-label">Descrizione:</label>
