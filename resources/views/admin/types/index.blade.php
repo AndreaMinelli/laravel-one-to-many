@@ -10,11 +10,11 @@
 @section('content')
     <h1 class="text-center my-4">Tipologia progetti</h1>
     <div class="d-flex align-items-center justify-content-end">
-        <button type="button" id="show-add-form" class="btn btn-success" style='display:block'>
+        <button type="button" id="show-add-form" class="btn btn-success" style='display:{{ old('name') ? 'none' : 'block' }}'>
             <i class="fas fa-plus me-2"></i>Aggiungi tipologia
         </button>
-        <form action="{{ route('admin.types.store') }}" method="POST" style='display:none' id="add-form"
-            class="align-items-end">
+        <form action="{{ route('admin.types.store') }}" method="POST" style='display:{{ old('name') ? 'block' : 'none' }}'
+            id="add-form" class="align-items-end">
             @csrf
             <div>
                 <label for="name" class="form-label">Nome tipologia:</label>

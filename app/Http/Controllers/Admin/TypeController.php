@@ -30,7 +30,18 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|unique:types'
+        ], [
+            'name.required' => 'Devi inserire un nome.',
+            'name.string' => 'Devi inserire un nome valido.',
+            'name.unique' => 'La tipologia inserita è già presente.'
+        ]);
+        $type = new Type();
+        $type->name = $request->input('name');
+        $type->save();
+
+        return to_route('admin.types.index')->with('type', 'success')->with('msg', "$type->name aggiunto correttamente");
     }
 
     /**
