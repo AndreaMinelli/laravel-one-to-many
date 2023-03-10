@@ -44,18 +44,15 @@
                     <th scope="row">{{ $type->id }}</th>
                     <td>{{ $type->name }}</td>
                     <td>{{ $type->updated_at }}</td>
-                    {{-- <td>
-                        <a class="btn btn-primary btn-sm" href="{{ route('admin.projects.show', $project->id) }}"><i
-                                class="fa-solid fa-eye"></i></a>
-                        <a class="btn btn-warning btn-sm text-white"
-                            href="{{ route('admin.projects.edit', $project->id) }}"><i class="fa-solid fa-pencil"></i></a>
-                        <form action="{{ route('admin.projects.destroy', $project->id) }}" class="delete-form d-inline"
-                            method="POST">
+                    <td class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-warning btn-sm text-white me-3"><i
+                                class="fa-solid fa-pencil"></i></button>
+                        <form action="{{ route('admin.types.destroy', $type->id) }}" class="delete-form" method="POST">
                             @method('DELETE')
                             @csrf
                             <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i></button>
                         </form>
-                    </td> --}}
+                    </td>
                 </tr>
             @empty
                 <tr>
